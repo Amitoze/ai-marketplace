@@ -1,0 +1,7 @@
+{
+  "name": "mcp-servers",
+  "description": "Bundled MCP server configs for external services",
+  "author": {
+    "name": "Amitoz Nandha"
+  }
+}

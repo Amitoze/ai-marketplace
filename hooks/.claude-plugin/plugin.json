@@ -1,0 +1,7 @@
+{
+  "name": "hooks",
+  "description": "Automation hooks: formatters, guards, event-driven commands",
+  "author": {
+    "name": "Amitoz Nandha"
+  }
+}

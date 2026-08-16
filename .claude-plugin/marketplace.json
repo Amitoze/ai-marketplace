@@ -1,0 +1,39 @@
+{
+  "name": "amitoz-marketplace",
+  "description": "Personal cross-project plugins: skills, agents, hooks, MCP, LSP, monitors",
+  "owner": {
+    "name": "Amitoz Nandha"
+  },
+  "plugins": [
+    {
+      "name": "skills",
+      "source": "./skills",
+      "description": "Cross-project workflow skills promoted from individual projects"
+    },
+    {
+      "name": "agents",
+      "source": "./agents",
+      "description": "Custom subagent definitions (empty for now)"
+    },
+    {
+      "name": "hooks",
+      "source": "./hooks",
+      "description": "Automation hooks: formatters, guards, event-driven commands (empty for now)"
+    },
+    {
+      "name": "mcp-servers",
+      "source": "./mcp-servers",
+      "description": "Bundled MCP server configs for external services (empty for now)"
+    },
+    {
+      "name": "lsp-servers",
+      "source": "./lsp-servers",
+      "description": "Language server configs for code intelligence (empty for now)"
+    },
+    {
+      "name": "monitors",
+      "source": "./monitors",
+      "description": "Background monitors (empty for now)"
+    }
+  ]
+}
