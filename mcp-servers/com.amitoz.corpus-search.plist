@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.amitoz.corpus-search</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Users/amitozenandha/work/projects/searchable-corpus-flow/.venv/bin/python</string>
+    <string>/Users/amitozenandha/work/projects/searchable-corpus-flow/scripts/mcp_server.py</string>
+  </array>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><true/>
+  <key>StandardErrorPath</key>
+  <string>/Users/amitozenandha/work/projects/searchable-corpus-flow/logs/mcp_server.stderr.log</string>
+</dict>
+</plist>
