@@ -52,7 +52,8 @@ joining the map you just drew.
 1. `## Step N — <what this step achieves>`
 2. The exact change, fully copy-paste-ready: one fenced `bash` block
    (heredocs for file content; `>>` appends for building files in
-   sections) — or, when the project is edited in an editor rather than
+   sections — large files MUST be sectioned, see "Writing the bash
+   blocks") — or, when the project is edited in an editor rather than
    via shell, a fenced code block of the new/changed code with enough
    surrounding context to place it unambiguously.
 3. `**Simple:**` one sentence, plain words, what the command does.
@@ -121,6 +122,28 @@ manifest rather than deciding again."
   of a chain fails, the later links never run, so the diagnostic output the
   user needs is exactly what they lose. Chain only when a later command is
   genuinely meaningless if an earlier one failed, and keep it to two.
+- **Never ship a large file as one heredoc — build it in sections.** This
+  failed in practice (2026-08-17, MCP-server walkthrough): a ~250-line
+  heredoc paste lost its closing delimiter to terminal/clipboard clipping,
+  and the shell sat waiting at `heredoc>` with nothing written. Cap each
+  block at roughly 60–80 lines. The first block is `cat > file <<'EOF'`;
+  every later one appends with `cat >> file <<'EOF'`. Cut along coherent
+  units — docstring + imports; one function group; the entry point — never
+  mid-function, so each block is readable on its own and the accompanying
+  explanation can walk that unit. Number the blocks ("Block 2 of 4") so a
+  re-paste is unambiguous.
+- **Follow every sectioned build with an assembly check** before anything
+  runs: `wc -l` with the expected ballpark ("roughly 250 — the ballpark
+  matters"), then a parse check (`python -c "import ast;
+  ast.parse(open('f').read())"` or the language's equivalent). A syntax
+  error's line number localises which block got clipped; the fix is to
+  rebuild from Block 1 — appends make partial repair ambiguous.
+- **State the recovery rule once per walkthrough**: a `heredoc>`
+  continuation prompt after pasting means the paste was clipped — Ctrl-C
+  is safe (the shell reads the whole heredoc before the redirect ever
+  touches the file), then re-paste. This is also why sectioned builds are
+  safe: an aborted block leaves the file exactly as the previous block
+  left it.
 
 ## Finish with
 
