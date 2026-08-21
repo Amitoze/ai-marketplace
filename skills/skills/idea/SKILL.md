@@ -46,8 +46,12 @@ them correct you in one word afterwards.
    utilization play. Came from noticing studios dark on weekdays.
    ```
 
-4. If `~/.claude/ideas/` is a git repo, commit the append with message
-   `idea: <title>`. If it isn't, skip silently — no nagging.
+4. `~/.claude/ideas/` is a git repo: commit the append with message
+   `idea: <title>`, then push if a remote is configured (skip the push
+   silently if there's none). A failed push (offline, auth) must never block
+   or delay capture — the entry is already saved; mention the failure in one
+   line and move on. Also commit (and push) after in-place edits, promotion
+   flips, and duplicate-merge changes, with a message saying what changed.
 
 5. Echo the entry back verbatim so a misclassification can be fixed with one
    word ("that's a feature") — apply such a correction by editing the entry
