@@ -5,7 +5,11 @@ skills shared across all my projects and machines. Skills are promoted here from
 project-local `.claude/skills/` folders once they prove useful in more than one project.
 
 - Install once per machine: `/plugin marketplace add <you>/claude-marketplace` then `/plugin install skills`
-- Update flow: edit → push → Claude Code auto-syncs (see diagram below)
+- Update flow: edit → `./publish` (pushes, then refreshes the installed plugins so the
+  next session — CLI or Desktop — loads the new version). Plain `git push` is NOT enough:
+  auto-update is disabled by default for third-party marketplaces, so nothing pulls until
+  `claude plugin marketplace update` + `claude plugin update` run, which is what the
+  script does.
 - Docs: [Plugin marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) · [Skills](https://code.claude.com/docs/en/skills)
 
 ## Repo layout

@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Publish marketplace changes: push, then refresh the locally installed
+# plugins so new Claude sessions (CLI and Desktop) pick them up immediately.
+# Idempotent: safe to re-run; already-current plugins are a no-op.
+set -euo pipefail
+
+MARKETPLACE="ai-marketplace"          # name registered in known_marketplaces.json
+PLUGINS=(skills agents mcp-servers)   # installed plugins to refresh
+
+cd "$(dirname "$0")"
+git push
+
+claude plugin marketplace update "$MARKETPLACE"
+for p in "${PLUGINS[@]}"; do
+  claude plugin update "$p@$MARKETPLACE"
+done
+
+echo "Published. New sessions will load the updated plugins."
