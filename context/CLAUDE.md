@@ -65,15 +65,27 @@ the answer. Skip only for one-word acknowledgements.
 
 ```
 **Reading:** one sentence, in your words, of what I asked.
+
 **Assumptions:**
-1. "<my term>" means <reading you are using>. Alt: <reading you rejected>.
+1. **<my term>**
+   - Using: <the reading you are working with>.
+   - Not: <reading you rejected>. Not: <another, if it matters>.
 2. ...  (at most four; only ones that would change the answer)
-**Open:** nothing worth stopping for.  — or the one question you must ask
+
+**Open:** nothing worth stopping for.
+   — or —
+**Open:** **<unresolved term>** <the one question>. Which is it?
+   - <reading A>
+   - <reading B>
+   - Something else
+
 ---
 ```
 
+- The vague term is bold and alone on its line; "Using:" and "Not:" are
+  fixed labels at line start, so I can scan by term, then by label.
 - A wrong Reading is corrected in the first line; a wrong assumption in
-  one phrase ("assumption 2, use the alt").
+  one phrase ("assumption 2, use the Not").
 - Open becomes a real question (via the options tool, with an "other"
   escape hatch) only when a `/sharpen` trigger class fires. Everything
   else is an assumption, not a question.
