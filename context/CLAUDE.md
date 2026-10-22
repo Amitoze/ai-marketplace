@@ -53,14 +53,37 @@ conventions on top; on conflict, the project file wins.
   noting X?" is enough.
 - **Separate required from recommended**, and identify the critical path,
   so insurance and polish never masquerade as necessity.
-- **Flag vague terms and help me make them explicit before answering.**
-  When I use a word with a lot of room to interpret ("best", "quality",
-  "runs hot", "simple", "fast"), don't resolve it silently. Say which
-  term is doing the work, offer two to four concrete readings I can pick
-  from — always with an "other, let me explain" option — and build the
-  measure with me. Where you proceed on an assumption I didn't confirm,
-  state it as an assumption, not a fact. Invoke `/sharpen` for this; I
-  can also call it myself to tighten a prompt before you answer.
+- **Never resolve a vague term silently.** Every answer opens with the
+  preamble below so my words and your reading of them are visible. When
+  a term falls in one of the four `/sharpen` trigger classes, ask before
+  answering; otherwise state the reading as an assumption and proceed.
+
+## Query preamble (every substantive answer, before anything else)
+
+Three fixed labels, same words every time, one block, then a rule, then
+the answer. Skip only for one-word acknowledgements.
+
+```
+**Reading:** one sentence, in your words, of what I asked.
+**Assumptions:**
+1. "<my term>" means <reading you are using>. Alt: <reading you rejected>.
+2. ...  (at most four; only ones that would change the answer)
+**Open:** nothing worth stopping for.  — or the one question you must ask
+---
+```
+
+- A wrong Reading is corrected in the first line; a wrong assumption in
+  one phrase ("assumption 2, use the alt").
+- Open becomes a real question (via the options tool, with an "other"
+  escape hatch) only when a `/sharpen` trigger class fires. Everything
+  else is an assumption, not a question.
+- When a term is in **My vocabulary** below, use that definition and say
+  so in the assumption ("using your definition of X").
+
+## My vocabulary
+
+Readings I have confirmed, scoped by domain, written by `/sharpen` when I
+pick one. Format: `- **term** (domain, YYYY-MM-DD): reading. Not: alt.`
 
 ## Hard rules
 

@@ -1,92 +1,107 @@
 ---
 name: sharpen
-description: Turn a vague request into an explicit one before answering it — name the terms doing the work, offer concrete readings the user can pick from, build the measure with them, state any remaining assumptions. Claude invokes this unprompted when a load-bearing word in the request has wide room for interpretation ("best", "quality", "runs hot", "simple", "fast", "good enough"). The user invokes it as /sharpen [prompt] to tighten a prompt before the final answer.
+description: The exception path for vague requests. The preamble (Reading / Assumptions / Open) handles ordinary ambiguity by stating assumptions; this skill fires only when a term falls in one of four trigger classes where guessing would produce a materially different answer — then it asks with concrete readings to pick from, builds the measure, and records the confirmed reading to the user's vocabulary. Claude invokes it unprompted when a trigger class fires; the user invokes /sharpen [prompt] to tighten a prompt before the answer.
 ---
 
-Sharpen a request until the answer can't be wrong for a definitional reason.
-The failure this guards against: the user says "I run hot, what's the best
-sheet", Claude silently decides "hot" means overnight heat retention and
-"best" means cooling-then-durability, and four turns of confident advice
-rest on definitions the user never gave.
+Ask only when guessing is worse than asking. The default for an unclear
+term is the preamble's Assumptions list; this skill is the exception that
+turns an assumption into a question, and then makes sure the same question
+is never needed twice.
 
-## When to run
+## Config
 
-- **Unprompted**, when a request contains a word that (a) decides the
-  answer and (b) has two or more readings that would lead to materially
-  different answers. Test: "if I picked the other reading, would my
-  recommendation change?" If yes, sharpen. If the readings converge on the
-  same answer, don't — just state the assumption and proceed.
-- **On `/sharpen`**, with or without an argument. With an argument, sharpen
-  that prompt. Without, sharpen the user's most recent request.
-- **Not** for small factual questions, follow-ups inside an already-sharpened
-  thread, or when the user has said "just answer".
+- **Vocabulary section:** `## My vocabulary` in the global context file
+  `~/.claude/CLAUDE.md` (symlink to `ai-marketplace/context/CLAUDE.md`).
+  Entries load every session without a read.
+- **Entry format:** `- **term** (domain, YYYY-MM-DD): reading. Not: alt.`
+- **Question tool:** AskUserQuestion. It appends an "Other" option itself;
+  that is the user's escape hatch — never add your own.
+- **Caps:** three terms per pass, one pass per request.
 
-## How to sharpen
+## Trigger classes (fire on any of these; otherwise assume and proceed)
 
-1. **Name the terms doing the work.** Pick at most three. Say in one line
-   why each is load-bearing ("'best' decides the ranking order; 'runs hot'
-   decides which property I optimise").
+1. **Evaluative superlative with no measure.** "best", "ideal", "quality",
+   "good enough", "right one" — the word hides a scoring rule.
+2. **"Order by X" or "rank by X" with X undefined.** Same hidden rule,
+   made explicit as a sort key.
+3. **Personal-state claim used as an input.** "I run hot", "I'm
+   time-poor", "I'm not technical", "this is urgent" — a fact about the
+   user that the answer will optimise around, with several readings.
+4. **A comparison or switch with no baseline.** "Should I move to X",
+   "which is better" — with nothing said about what they have now and
+   what they like about it.
 
-2. **Offer readings, not open questions.** For each term, use the
-   AskUserQuestion tool with two to four concrete readings as options.
-   The tool adds an "Other" option automatically — rely on it; that is the
-   user's escape hatch. Make readings concrete and distinct, written in the
-   user's situation not in the abstract:
-   - "runs hot" → wake up sweaty / sheets feel warm to the touch / room is
-     hot and I want the bedding to help / all of these
-   - "best quality" → lasts longest / coolest through the night / softest on
-     first touch / lowest upkeep
-   Use `multiSelect: true` when readings aren't mutually exclusive.
-   Batch up to three terms in one AskUserQuestion call rather than three
-   round trips.
+Second gate, applied after a class matches: *would the other reading
+change my answer materially?* If every reading lands on the same answer,
+do not ask — state the reading in Assumptions and continue.
 
-3. **Build the measure when the term is evaluative.** "Best", "quality",
-   "good", "ideal" each hide a scoring rule. Once the user has picked the
-   axes, ask them to order the axes (one more question, or infer from their
-   phrasing and confirm). Write the resulting measure back in one line:
-   "So quality here = cool through the night, then durability, then
-   first-touch feel — feel is a tiebreaker, not a driver."
+Before asking, check **My vocabulary**. A term already defined there is
+not asked; the preamble says "using your definition of X".
 
-4. **Elicit the baseline** when the request is comparative or a
-   recommendation to switch: what they use now, what they like about it,
-   what they'd miss. Fold it into the same AskUserQuestion call where it
-   fits, otherwise one short question.
+## Running it
 
-5. **Restate the sharpened prompt** in two or three lines and get a yes
-   before answering. On `/sharpen` this restatement is the deliverable;
-   stop there unless they say go.
+1. **Name the terms doing the work**, at most three, one line each on
+   why they decide the answer.
 
-6. **State residual assumptions as assumptions.** Anything still
-   unconfirmed when you answer goes in a visible line: "Assuming X; tell me
-   if not." Never let an assumption appear as a fact in a table or ranking.
+2. **Ask with readings, not open questions.** One AskUserQuestion call
+   batching all terms. Two to four concrete readings per term, written in
+   the user's situation, short labels (they are read aloud, not scanned).
+   `multiSelect: true` where readings can co-exist.
+   - "runs hot" → wake up sweaty / sheets feel warm to touch / room is hot
+     and bedding should help / several of these
+   - "best quality" → lasts longest / coolest through the night / softest
+     on first touch / lowest upkeep
+   For trigger class 4, add the baseline as its own question: what they
+   use now, what they like about it, what they would miss.
+
+3. **Build the measure** when the term is evaluative. After the axes are
+   picked, get an order (one more question, or infer from phrasing and
+   confirm). Write it back in one line: "quality = cool through the
+   night, then durability, then first-touch feel as tiebreaker."
+
+4. **Echo "Other" verbatim.** If the user picked Other, their text is the
+   definition; repeat it back before continuing.
+
+5. **Record to vocabulary.** Append one entry per confirmed reading to
+   `## My vocabulary` in the context file, scoped by domain. Do not record
+   a reading the user did not confirm. Do not record one-off facts that
+   are not definitions (a measurement, a preference for a colour).
+
+6. **Restate the sharpened request** in two or three lines. On an
+   unprompted fire, continue straight into the answer with the preamble
+   reflecting the confirmed readings. On `/sharpen`, the restatement is
+   the deliverable: stop and wait for "go".
 
 ## Rules
 
-- One sharpening pass per request. If it still isn't clear after one round
-  of questions, proceed on stated assumptions rather than interrogating.
-- Readings go in the user's words and situation. "Thermal effusivity vs
-  breathability" is not a reading; "feels cool when you touch it vs stays
-  cool at 3am" is.
-- Option labels short and distinct — they are read aloud by a screen
-  reader, not scanned.
-- Don't pad with questions whose answer wouldn't change the output. Every
-  question must map to a branch in the answer.
-- When the user picks "Other", read their text as the definition and echo
-  it back before continuing.
-- The sharpened prompt and the measure are reusable: in a plan/ project,
-  offer to record the measure in DECISIONS.md.
+- One pass. If it is still unclear after one round, proceed on stated
+  assumptions rather than asking again.
+- Every question must map to a branch in the answer. A question whose
+  answer would not change the output is padding; drop it.
+- Readings in the user's words and situation, never in mechanism words.
+  "Feels cool when you touch it vs stays cool at 3am", not "effusivity vs
+  breathability".
+- The skill never fires on follow-ups inside a thread already sharpened,
+  or after the user says "just answer".
+- In a `plan/` project, offer to copy the measure into `DECISIONS.md`.
 
 ## Example
 
-User: "My body runs hot, what's the best sheet material, order by quality."
+Request: "My body runs hot, what is the best sheet material, order by
+quality."
 
-Sharpen: name "runs hot" and "quality" as load-bearing. One
-AskUserQuestion with two questions: how "hot" shows up (sweaty on waking /
-sheets warm to touch / room heat / several), and which axes define quality
-for them (multi-select: overnight cooling, first-touch feel, durability,
-upkeep, price). Then one line eliciting the baseline: "What are you
-sleeping on now and what do you like about it?" Restate: "Ranking sheet
-materials for someone who wakes sweaty, currently on smooth sateen they
-like the cool feel of, scoring on overnight cooling first and first-touch
-feel second." Then answer, with the ranking's caveat column promoted to a
-flag wherever a top pick loses on a chosen axis.
+Classes 1, 2 and 3 fire; class 4 fires too because it is a buying
+decision with no baseline. One AskUserQuestion with three questions:
+how "hot" shows up (four readings, multi-select), which axes define
+quality (five readings, multi-select), and what they sleep on now and
+like about it (free text via Other). Suppose they pick "wake up sweaty",
+axes "cool through the night, first-touch feel, durability", and say
+"sateen, I love how cool it feels when I get in".
+
+Record:
+`- **runs hot** (bedding, 2026-10-22): wakes sweaty overnight. Not: sheets warm to the touch.`
+`- **quality** (bedding, 2026-10-22): cool through the night, then first-touch feel, then durability.`
+
+Preamble on the answer then reads "using your definition of runs hot"
+and "quality per your ranking", and the ranking table carries a
+first-touch column because it is now a scored axis, not a caveat.
