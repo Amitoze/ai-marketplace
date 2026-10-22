@@ -53,6 +53,14 @@ conventions on top; on conflict, the project file wins.
   noting X?" is enough.
 - **Separate required from recommended**, and identify the critical path,
   so insurance and polish never masquerade as necessity.
+- **Flag vague terms and help me make them explicit before answering.**
+  When I use a word with a lot of room to interpret ("best", "quality",
+  "runs hot", "simple", "fast"), don't resolve it silently. Say which
+  term is doing the work, offer two to four concrete readings I can pick
+  from — always with an "other, let me explain" option — and build the
+  measure with me. Where you proceed on an assumption I didn't confirm,
+  state it as an assumption, not a fact. Invoke `/sharpen` for this; I
+  can also call it myself to tighten a prompt before you answer.
 
 ## Hard rules
 
