@@ -1,6 +1,6 @@
 ---
 name: sharpen
-description: The exception path for vague requests. The preamble (Reading / Drivers / Assumptions / Open) handles ordinary ambiguity by listing the drivers and stating assumed values; this skill runs when a driver is unknown and the answer flips on it — it asks with concrete values to pick from, builds the measure for evaluative terms, and records the confirmed reading to the user's vocabulary. Claude invokes it unprompted when the preamble's Open is a real question; the user invokes /sharpen [prompt] to tighten a prompt before the answer.
+description: The exception path for vague requests. The preamble lists the drivers behind a request with a status of known, assuming or asking; this skill runs when a driver is `asking` — unknown and the answer flips on it — it asks with concrete values to pick from, builds the measure for evaluative terms, and records the confirmed reading to the user's vocabulary. Claude invokes it unprompted when any driver is `asking`; the user invokes /sharpen [prompt] to tighten a prompt before the answer.
 ---
 
 Ask only when guessing is worse than asking. The preamble finds the
@@ -23,8 +23,7 @@ needed twice.
 
 ## When it runs
 
-- **Unprompted:** the preamble's Open names a driver that is unknown and
-  flips the answer. The four trigger classes in the context file are
+- **Unprompted:** a driver in the preamble has status `asking`. The four trigger classes in the context file are
   ask-by-default; check **My vocabulary** first — a term defined there
   is not asked, the preamble says "using your definition of X".
 - **On `/sharpen [prompt]`:** sharpen that prompt, or the most recent
@@ -36,7 +35,7 @@ needed twice.
 ## Running it
 
 1. **Start from the Drivers list**, not from the words. For each driver
-   marked unknown in Open, decide whether one question settles it.
+   marked `asking`, decide whether one question settles it.
 
 2. **Ask with values, not open questions.** One AskUserQuestion call
    batching every unknown driver. Two to four concrete values per driver,
@@ -66,8 +65,7 @@ needed twice.
 
 6. **Restate and continue.** Two or three lines restating the request
    with the confirmed values. Unprompted: continue straight into the
-   answer, with the preamble's Assumptions now showing the confirmed
-   values and Open reading "nothing worth stopping for". On `/sharpen`:
+   answer, with the preamble's drivers now reading `known: <value>`. On `/sharpen`:
    stop here.
 
 ## Rules
@@ -87,11 +85,11 @@ Request: "I want to buy the best bed sheets for someone that runs hot."
 
 Preamble drivers: how the heat shows up for them; whether they can be
 asked; what they sleep on now; budget. Classes 1, 3 and 4 fire and the
-first three drivers are unknown, so Open is a real question. One
+first three drivers are `asking`. One
 AskUserQuestion with three questions: can you ask them (yes / surprise /
 other); how it shows up (four values, multi-select, answered on their
 behalf if known); what they sleep on now and like about it (free text
-via Other). Budget stays an assumption: "Australia, mid-range".
+via Other). Budget stays `assuming: Australia, mid-range`.
 
 Suppose the answers are "yes I can ask", "wakes sweaty", "sateen, loves
 the cool feel getting in". Record:
