@@ -118,6 +118,8 @@ unclear after one round, proceed with `assuming:` and say so.
 
 Readings I have confirmed, scoped by domain, written by `/sharpen` when I
 pick one. Format: `- **term** (domain, YYYY-MM-DD): reading. Not: alt.`
+- **world model / constrained by** (mindloom, 2026-10-22): a hand-built model of needs, beliefs, triggers, values, behaviours, emotions, each with a defined range and defined interplay, grounded in schema-therapy + ACT theory; the engine must make structurally impossible proposals and out-of-scope conversational moves impossible. Not: a knowledge graph of the user's own record; not vocabulary policing; enforcement strength (block / check-and-retry / steer) still open.
+- **expert in using AI to create products** (learning, 2026-10-23): ranked skillset — (1) building any product faster with AI tools doing most of the engineering; (2) building LLM-core products (Mindloom); (3) designing AI features: how far to push them, how to constrain answers. Portfolio is the proof, not credentials. Not: ML research or model training; not a cert-led path.
 
 ## Hard rules
 
