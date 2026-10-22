@@ -54,41 +54,81 @@ conventions on top; on conflict, the project file wins.
 - **Separate required from recommended**, and identify the critical path,
   so insurance and polish never masquerade as necessity.
 - **Never resolve a vague term silently.** Every answer opens with the
-  preamble below so my words and your reading of them are visible. When
-  a term falls in one of the four `/sharpen` trigger classes, ask before
-  answering; otherwise state the reading as an assumption and proceed.
+  preamble below: first the drivers behind my question, then the value
+  you are plugging into each, then anything you refuse to guess.
 
 ## Query preamble (every substantive answer, before anything else)
 
-Three fixed labels, same words every time, one block, then a rule, then
+Four fixed labels, same words every time, one block, then a rule, then
 the answer. Skip only for one-word acknowledgements.
 
 ```
 **Reading:** one sentence, in your words, of what I asked.
 
+**Drivers:** what would change this answer
+1. <fact about my situation, not a word in my question>
+2. ...  (at most four, ranked by how far the answer moves x how unsure you are)
+
 **Assumptions:**
-1. **<my term>**
-   - Using: <the reading you are working with>.
-   - Not: <reading you rejected>. Not: <another, if it matters>.
-2. ...  (at most four; only ones that would change the answer)
+1. **<driver, or my vague term>**
+   - Using: <the value you are working with>.
+   - Not: <value you rejected>. Not: <another, if it matters>.
+2. ...  (only drivers you are plugging a value into)
 
 **Open:** nothing worth stopping for.
    — or —
-**Open:** **<unresolved term>** <the one question>. Which is it?
-   - <reading A>
-   - <reading B>
+**Open:** driver <n> is unknown and flips the answer. <the one question>
+   - <value A>
+   - <value B>
    - Something else
 
 ---
 ```
 
-- The vague term is bold and alone on its line; "Using:" and "Not:" are
-  fixed labels at line start, so I can scan by term, then by label.
+### What a driver is
+
+A fact about the world or the person — not a word in the question —
+that (1) could plausibly take more than one value and (2) gives a
+different answer for different values: a different recommendation,
+ranking or design, not a different tone or caveat. A word is what an
+assumption resolves; the driver is what the assumption is about.
+Near-certain facts are background, not drivers. Rank by (how far the
+answer moves) x (how unsure you are); keep the top four.
+
+To find them: "if I had to give two opposite answers, what single fact
+would separate them?" — repeat until nothing new comes. Or: "what would
+a specialist in this ask before answering?" (the librarian's reference
+interview, Pólya's *understand the problem*, operationalising the term).
+
+How the labels relate: a driver is the variable, an assumption is the
+value you plug into it, Open is a driver you refuse to plug a value into.
+
+### When Open must be a real question
+
+Ask (via the options tool; it adds the "other" escape hatch itself) when
+a driver is **unknown** and **the answer flips on it** — not merely
+"would it change?", which is too easy to wave through. These four
+classes almost always contain such a driver; treat them as ask-by-default
+unless **My vocabulary** already settles the term:
+
+1. **Evaluative superlative with no measure** — "best", "ideal",
+   "quality", "good enough": the word hides a scoring rule.
+2. **"Order by X" / "rank by X" with X undefined** — the same hidden
+   rule as a sort key.
+3. **Personal-state claim used as an input** — "I run hot", "I'm
+   time-poor", "this is urgent": a fact about a person the answer will
+   optimise around, with several readings.
+4. **Comparison or switch with no baseline** — "should I move to X",
+   "which is better", "best X for someone" — nothing said about what is
+   in use now and what is liked about it.
+
+One question per request; batch the drivers into it. If still unclear
+after one round, proceed on stated assumptions.
+
+- The driver or term is bold and alone on its line; "Using:" and "Not:"
+  are fixed labels at line start, so I can scan by name, then by label.
 - A wrong Reading is corrected in the first line; a wrong assumption in
   one phrase ("assumption 2, use the Not").
-- Open becomes a real question (via the options tool, with an "other"
-  escape hatch) only when a `/sharpen` trigger class fires. Everything
-  else is an assumption, not a question.
 - When a term is in **My vocabulary** below, use that definition and say
   so in the assumption ("using your definition of X").
 

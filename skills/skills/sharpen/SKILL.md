@@ -1,107 +1,104 @@
 ---
 name: sharpen
-description: The exception path for vague requests. The preamble (Reading / Assumptions / Open) handles ordinary ambiguity by stating assumptions; this skill fires only when a term falls in one of four trigger classes where guessing would produce a materially different answer — then it asks with concrete readings to pick from, builds the measure, and records the confirmed reading to the user's vocabulary. Claude invokes it unprompted when a trigger class fires; the user invokes /sharpen [prompt] to tighten a prompt before the answer.
+description: The exception path for vague requests. The preamble (Reading / Drivers / Assumptions / Open) handles ordinary ambiguity by listing the drivers and stating assumed values; this skill runs when a driver is unknown and the answer flips on it — it asks with concrete values to pick from, builds the measure for evaluative terms, and records the confirmed reading to the user's vocabulary. Claude invokes it unprompted when the preamble's Open is a real question; the user invokes /sharpen [prompt] to tighten a prompt before the answer.
 ---
 
-Ask only when guessing is worse than asking. The default for an unclear
-term is the preamble's Assumptions list; this skill is the exception that
-turns an assumption into a question, and then makes sure the same question
-is never needed twice.
+Ask only when guessing is worse than asking. The preamble finds the
+drivers and plugs assumed values in; this skill is what happens when a
+driver cannot be assumed, and it makes sure the same question is never
+needed twice.
 
 ## Config
 
-- **Vocabulary section:** `## My vocabulary` in the global context file
-  `~/.claude/CLAUDE.md` (symlink to `ai-marketplace/context/CLAUDE.md`).
-  Entries load every session without a read.
+- **Driver definition, trigger classes and the ask gate** live in the
+  global context file `~/.claude/CLAUDE.md` (symlink to
+  `ai-marketplace/context/CLAUDE.md`), section "Query preamble". That
+  copy is canonical; do not restate it here.
+- **Vocabulary section:** `## My vocabulary` in the same file. Entries
+  load every session without a read.
 - **Entry format:** `- **term** (domain, YYYY-MM-DD): reading. Not: alt.`
 - **Question tool:** AskUserQuestion. It appends an "Other" option itself;
   that is the user's escape hatch — never add your own.
-- **Caps:** three terms per pass, one pass per request.
+- **Caps:** up to four drivers in one call, one call per request.
 
-## Trigger classes (fire on any of these; otherwise assume and proceed)
+## When it runs
 
-1. **Evaluative superlative with no measure.** "best", "ideal", "quality",
-   "good enough", "right one" — the word hides a scoring rule.
-2. **"Order by X" or "rank by X" with X undefined.** Same hidden rule,
-   made explicit as a sort key.
-3. **Personal-state claim used as an input.** "I run hot", "I'm
-   time-poor", "I'm not technical", "this is urgent" — a fact about the
-   user that the answer will optimise around, with several readings.
-4. **A comparison or switch with no baseline.** "Should I move to X",
-   "which is better" — with nothing said about what they have now and
-   what they like about it.
-
-Second gate, applied after a class matches: *would the other reading
-change my answer materially?* If every reading lands on the same answer,
-do not ask — state the reading in Assumptions and continue.
-
-Before asking, check **My vocabulary**. A term already defined there is
-not asked; the preamble says "using your definition of X".
+- **Unprompted:** the preamble's Open names a driver that is unknown and
+  flips the answer. The four trigger classes in the context file are
+  ask-by-default; check **My vocabulary** first — a term defined there
+  is not asked, the preamble says "using your definition of X".
+- **On `/sharpen [prompt]`:** sharpen that prompt, or the most recent
+  request if no argument. Here the restated request is the deliverable;
+  stop and wait for "go".
+- **Never** on follow-ups inside a thread already sharpened, or after the
+  user says "just answer".
 
 ## Running it
 
-1. **Name the terms doing the work**, at most three, one line each on
-   why they decide the answer.
+1. **Start from the Drivers list**, not from the words. For each driver
+   marked unknown in Open, decide whether one question settles it.
 
-2. **Ask with readings, not open questions.** One AskUserQuestion call
-   batching all terms. Two to four concrete readings per term, written in
-   the user's situation, short labels (they are read aloud, not scanned).
-   `multiSelect: true` where readings can co-exist.
-   - "runs hot" → wake up sweaty / sheets feel warm to touch / room is hot
-     and bedding should help / several of these
-   - "best quality" → lasts longest / coolest through the night / softest
-     on first touch / lowest upkeep
-   For trigger class 4, add the baseline as its own question: what they
-   use now, what they like about it, what they would miss.
+2. **Ask with values, not open questions.** One AskUserQuestion call
+   batching every unknown driver. Two to four concrete values per driver,
+   written in the user's situation, short labels (they are read aloud,
+   not scanned). `multiSelect: true` where values can co-exist.
+   - how the heat shows up → wake up sweaty / sheets warm on first touch /
+     room is hot and bedding should help / several of these
+   - what quality means → lasts longest / coolest through the night /
+     softest on first touch / lowest upkeep
+   - baseline (class 4) → its own question: what is in use now, what is
+     liked about it, what would be missed.
+   - for someone else → can you ask them / it is a surprise
 
-3. **Build the measure** when the term is evaluative. After the axes are
-   picked, get an order (one more question, or infer from phrasing and
-   confirm). Write it back in one line: "quality = cool through the
-   night, then durability, then first-touch feel as tiebreaker."
+3. **Build the measure** when a driver is an evaluative term. After the
+   axes are picked, get an order (one more option in the same call, or
+   infer from phrasing and confirm). Write it back in one line:
+   "quality = cool through the night, then first-touch feel, then
+   durability as tiebreaker."
 
-4. **Echo "Other" verbatim.** If the user picked Other, their text is the
-   definition; repeat it back before continuing.
+4. **Echo "Other" verbatim.** The user's text is the value; repeat it
+   back before continuing.
 
-5. **Record to vocabulary.** Append one entry per confirmed reading to
-   `## My vocabulary` in the context file, scoped by domain. Do not record
-   a reading the user did not confirm. Do not record one-off facts that
-   are not definitions (a measurement, a preference for a colour).
+5. **Record to vocabulary.** Append one entry per confirmed reading of a
+   *term* to `## My vocabulary`, scoped by domain. Record definitions
+   only — not one-off facts (a budget, a colour, a mattress depth), and
+   never a reading the user did not confirm.
 
-6. **Restate the sharpened request** in two or three lines. On an
-   unprompted fire, continue straight into the answer with the preamble
-   reflecting the confirmed readings. On `/sharpen`, the restatement is
-   the deliverable: stop and wait for "go".
+6. **Restate and continue.** Two or three lines restating the request
+   with the confirmed values. Unprompted: continue straight into the
+   answer, with the preamble's Assumptions now showing the confirmed
+   values and Open reading "nothing worth stopping for". On `/sharpen`:
+   stop here.
 
 ## Rules
 
-- One pass. If it is still unclear after one round, proceed on stated
-  assumptions rather than asking again.
-- Every question must map to a branch in the answer. A question whose
-  answer would not change the output is padding; drop it.
-- Readings in the user's words and situation, never in mechanism words.
-  "Feels cool when you touch it vs stays cool at 3am", not "effusivity vs
-  breathability".
-- The skill never fires on follow-ups inside a thread already sharpened,
-  or after the user says "just answer".
+- Every question maps to a driver, and every driver asked flips the
+  answer. A question whose answer would not change the output is
+  padding; drop it.
+- Values in the user's words and situation, never mechanism words.
+  "Feels cool when you touch it vs stays cool at 3am", not "effusivity
+  vs breathability".
+- One round. If still unclear, proceed on stated assumptions.
 - In a `plan/` project, offer to copy the measure into `DECISIONS.md`.
 
 ## Example
 
-Request: "My body runs hot, what is the best sheet material, order by
-quality."
+Request: "I want to buy the best bed sheets for someone that runs hot."
 
-Classes 1, 2 and 3 fire; class 4 fires too because it is a buying
-decision with no baseline. One AskUserQuestion with three questions:
-how "hot" shows up (four readings, multi-select), which axes define
-quality (five readings, multi-select), and what they sleep on now and
-like about it (free text via Other). Suppose they pick "wake up sweaty",
-axes "cool through the night, first-touch feel, durability", and say
-"sateen, I love how cool it feels when I get in".
+Preamble drivers: how the heat shows up for them; whether they can be
+asked; what they sleep on now; budget. Classes 1, 3 and 4 fire and the
+first three drivers are unknown, so Open is a real question. One
+AskUserQuestion with three questions: can you ask them (yes / surprise /
+other); how it shows up (four values, multi-select, answered on their
+behalf if known); what they sleep on now and like about it (free text
+via Other). Budget stays an assumption: "Australia, mid-range".
 
-Record:
+Suppose the answers are "yes I can ask", "wakes sweaty", "sateen, loves
+the cool feel getting in". Record:
+
 `- **runs hot** (bedding, 2026-10-22): wakes sweaty overnight. Not: sheets warm to the touch.`
-`- **quality** (bedding, 2026-10-22): cool through the night, then first-touch feel, then durability.`
 
-Preamble on the answer then reads "using your definition of runs hot"
-and "quality per your ranking", and the ranking table carries a
-first-touch column because it is now a scored axis, not a caveat.
+Restate: "Ranking sheet materials for a person who wakes sweaty,
+currently on sateen they like the cool first touch of, mid-range in
+Australia." Then answer, with first-touch feel as a scored column
+because the baseline made it an axis, not a caveat.
