@@ -20,7 +20,9 @@ source-by-source.
 - **Evidence gap map:** grid of research domains × review questions.
   Each cell: source count + dominant confidence (peer-reviewed/full-text
   high; abstract-only or grey/caution low; empty = gap). ASCII grid,
-  arrows and cells labeled in plain words.
+  arrows and cells labeled in plain words. Width follows "Figures must
+  fit a narrow pane" in the global CLAUDE.md; if the grid would break
+  the line-length limit, use a markdown table for it.
 - **What the literature cannot answer:** the questions with empty or
   low-confidence cells, phrased as askable interview/observation
   questions.

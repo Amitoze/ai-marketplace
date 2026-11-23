@@ -17,6 +17,16 @@ conventions on top; on conflict, the project file wins.
 - **Diagram > table > minimal prose.** ASCII diagrams wherever a thing has
   moving parts; label every arrow with what flows, in plain words, never a
   type name; follow each diagram with a short prose reading.
+- **Figures must fit a narrow pane.** My pane wraps at about 80
+  characters, and a wrapped figure falls out of line and cannot be read.
+  Inside any code block that holds a figure, in chat or in a file:
+  - no line longer than **66 characters** (this is the one place the
+    number lives; skills point here);
+  - a chain of more than three steps runs top to bottom, and branches
+    are stacked, never placed side by side;
+  - a label sits on the same line as the thing it labels, never on a
+    separate row lined up by counting spaces;
+  - if it still does not fit, split it into two figures or use a table.
 
 ## Project structure habits (when the project uses them)
 

@@ -27,6 +27,9 @@ comes to mind. Stages 1–4 exist to earn stage 5.
 **1 · SKETCH.** Candidate component diagram for this phase, text form:
 new/changed parts marked `← NEW`, arrows labelled with what flows in
 plain words, connections to existing modules shown. Short prose reading.
+Width and layout follow "Figures must fit a narrow pane" in the global
+CLAUDE.md (line-length limit, top-to-bottom chains, labels on the same
+line).
 
 **2 · CONTEST.** Apply the significance filter: a component gets the
 options treatment only if reversing the choice later would cost more

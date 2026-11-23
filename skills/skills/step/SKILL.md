@@ -28,7 +28,8 @@ ticked, say so and point at /phase-done.
   pure function; nothing below initControls() changes";
 - a small flow diagram whenever the step creates or changes something
   other code touches (new config field, new function other stages
-  call), arrows labelled with what flows;
+  call), arrows labelled with what flows, width and layout per "Figures
+  must fit a narrow pane" in the global CLAUDE.md;
 - the check that will prove it worked, and what the user should expect
   to see.
 

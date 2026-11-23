@@ -20,6 +20,11 @@ entry date; the entry names the component back.
 
 No Mermaid, no images — ASCII diagrams that render anywhere.
 Representation priority: **diagram > table > minimal prose**.
+Figure width and layout follow **"Figures must fit a narrow pane"** in
+the global CLAUDE.md (line-length limit, top-to-bottom chains, labels on
+the same line). `inputs → transform → outputs` names what a figure
+shows, not its direction: draw it top to bottom whenever left to right
+would break the limit.
 
 ## When this skill runs (not only on request)
 

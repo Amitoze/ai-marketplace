@@ -26,6 +26,9 @@ plain language and a picture, and don't wait to be asked twice.
    flows, in plain words ("the trust score", "which folder"), never a type
    name. Mark what is new or changed if it matters. Follow the diagram with a
    two-or-three-sentence prose reading of it, walking the path in order.
+   Width and layout follow "Figures must fit a narrow pane" in the global
+   CLAUDE.md (line-length limit, top-to-bottom chains, labels on the same
+   line).
 3. **Short.** A few tight paragraphs, not an essay. Aim for the "click", not
    completeness — depth is available on request.
 4. **Ground it in their case.** Use the actual example at hand (this book,

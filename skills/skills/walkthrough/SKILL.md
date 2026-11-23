@@ -85,6 +85,9 @@ Rules:
 - **Follow the diagram with a short prose reading of it** — two or three
   sentences walking the path in order, in the same plain language.
 - Keep it small. One diagram per step at most, only the parts that matter.
+- **Width and layout follow "Figures must fit a narrow pane" in the
+  global CLAUDE.md** (line-length limit, top-to-bottom chains, branches
+  stacked, labels on the same line).
 
 Example of the expected shape and labelling (illustrative — from a
 pipeline project):
@@ -93,15 +96,20 @@ pipeline project):
 config/settings.yaml
    │  folder names + which workspace to use
    ▼
-load_config(workspace)  ← CHANGED: now takes a workspace name
+load_config(workspace)  ← CHANGED: takes a workspace name
    │  settings, plus the chosen workspace
-   ├────────────► wpath(cfg, "ocr")  ← NEW: builds one path
-   │                  │  e.g. tests/.workspace/ocr/
-   ▼                  ▼
-triage.py main()   ocr.py main()
-   │  the verdict for each file      │  repaired PDFs + recognised text
-   ▼                                 ▼
-manifest.json  ──── read by ────►  corpus/ocr/
+   ├──► wpath(cfg, "ocr")  ← NEW: builds one path
+   │       │  e.g. tests/.workspace/ocr/
+   │       ▼
+   │    ocr.py main()
+   │       │  repaired PDFs + recognised text
+   │       ▼
+   │    corpus/ocr/
+   ▼
+triage.py main()
+   │  the verdict for each file
+   ▼
+manifest.json  (read by every later stage, ocr.py included)
 ```
 
 Then read it aloud in prose: "The settings file says which workspace to

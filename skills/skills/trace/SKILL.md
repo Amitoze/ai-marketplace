@@ -69,6 +69,11 @@ fill the template.
 
 ## Rules
 
+- **Figure width and layout follow "Figures must fit a narrow pane" in
+  the global CLAUDE.md** (line-length limit, top-to-bottom chains,
+  labels on the same line). "INPUTS → [thing] → OUTPUTS" names what the
+  figure shows, not its direction: draw it top to bottom whenever left
+  to right would break the limit.
 - **Diagram arrows carry plain-language cargo labels** and connect to the
   real system (which script/config/dir each end touches), so the reader
   answers "what calls this, what does it call, what moves between them?"
