@@ -56,11 +56,14 @@ done, not a noun that describes having done it.**
 
 Concretely:
 
-1. **Verb, not nominalisation.** "I led" not "I have experience leading".
-   "I studied" not "trained in". "My analysis changed the decision" not
-   "a track record of turning analysis into decisions". If the sentence's
-   main noun is *experience*, *track record*, *expertise*, *capability* or
-   *skills*, rewrite around the underlying verb.
+1. **Plain "I have" is the user's voice; stacked abstractions are not.**
+   "I have an educational background in X" and "I have ten years' experience
+   leading Y" are how the user writes and read as human. The tell is when a
+   second abstract noun is bolted on with "and": "...and a strong track record
+   of turning analysis into decisions". One such noun phrase per sentence.
+   Replace the second with a verb in its own sentence ("In each role my
+   analysis shaped decisions at executive level"). Avoid *track record*,
+   *expertise* and *capability* altogether; they are résumé words.
 2. **No fronted participle.** Sentences beginning "Trained in...", "Having
    led...", "Drawing on..." are a literary opener nobody uses when speaking.
    Make it its own sentence or move it after the main clause.
@@ -91,9 +94,10 @@ Worked example of the rule:
 
 Three claims, a participle opener, two nominalisations, one stock phrase.
 
-> After: *I studied social science, psychology and statistics. For almost ten
-> years I have led data and analytics projects at SEEK, Canva, Mable and RMIT
-> University, and in each role my analysis has shaped decisions at executive
+> After (the user's own preferred form): *I have an educational background in
+> social science, psychology and statistics, and have almost ten years'
+> experience leading data and analytics projects at SEEK, Canva, Mable and
+> RMIT University. In each role my analysis has shaped decisions at executive
 > level.*
 
 ## The swap test

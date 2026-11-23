@@ -130,6 +130,7 @@ Readings I have confirmed, scoped by domain, written by `/sharpen` when I
 pick one. Format: `- **term** (domain, YYYY-MM-DD): reading. Not: alt.`
 - **world model / constrained by** (mindloom, 2026-10-22): a hand-built model of needs, beliefs, triggers, values, behaviours, emotions, each with a defined range and defined interplay, grounded in schema-therapy + ACT theory; the engine must make structurally impossible proposals and out-of-scope conversational moves impossible. Not: a knowledge graph of the user's own record; not vocabulary policing; enforcement strength (block / check-and-retry / steer) still open.
 - **expert in using AI to create products** (learning, 2026-10-23): ranked skillset — (1) building any product faster with AI tools doing most of the engineering; (2) building LLM-core products (Mindloom); (3) designing AI features: how far to push them, how to constrain answers. Portfolio is the proof, not credentials. Not: ML research or model training; not a cert-led path.
+- **connect with manager/colleagues, feel at ease** (work, 2026-10-23): the manager names what I do well, grows me in small steps and moves me toward work that suits me, and is empathetic about mental-health and esteem challenges; plus warm rapport, safe to say "I'm stuck", and my thinking argued with as a peer. Not: friendliness alone; not vision accommodation as the need (vulnerability + the guide dog was a lever that flipped a bad team, not the requirement).
 
 ## Hard rules
 
@@ -141,3 +142,6 @@ pick one. Format: `- **term** (domain, YYYY-MM-DD): reading. Not: alt.`
 - Downloads require an explicit ask: filename, source, size.
 - Never self-certify a gate that belongs to a human judgement — present
   the material and ask.
+- **full analysis of <company>** (jobs, 2026-10-23): job-targeting company brief — business, funding, products and roadmap, competitors, hiring footprint incl. Australia, and role fit viewed through both product and data/analytics lenses. Not: an investment view; not an AT product evaluation of its hardware.
+- **camera quality** (phones, 2026-11-02): how good photos to keep and share look — everyday shots, people, scenery. Not: camera as a vision aid (magnifier, sign reading, LiDAR detection); not video.
+- **best sunglasses** (low-vision, 2026-11-02): cuts glare while I can still see edges; colours staying true is the second axis; two pairs (glare + colour-true) is acceptable. Not: darkest possible to shut light out.
